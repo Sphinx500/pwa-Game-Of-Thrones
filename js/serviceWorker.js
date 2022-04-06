@@ -1,27 +1,39 @@
-const gameofthrones = "game-of-thrones"
-const assets = [
-  "/",
-  "/index.html",
-  "/css/styles.css",
-  "/js/app.js",
-  "src/img/house/main.jpg",
-  "src/img/characters/personajes.jpg",
-  "src/img/maps/main-map.jpeg",
-]
+self.addEventListener('install', function (event) {
+    event.waitUntil(
+        caches.open('v1').then(function (cache) {
+            return cache.addAll([
+                "/",
+                "/index.html",
+                "/css/styles.css",
+                "/js/app.js",
+                "src/img/house/main.jpg",
+                "src/img/characters/personajes.jpg",
+                "src/img/maps/main-map.jpeg",
+            ]);
+        })
+    );
+});
 
-self.addEventListener("install", installEvent => {
-  installEvent.waitUntil(
-    caches.open(gameofthrones).then(cache => {
-      cache.addAll(assets)
-      console.log("Assets agregados")
-    })
-  )
-})
+self.addEventListener('fetch', function (event) {
+    event.respondWith(caches.match(event.request).then(function (response) {
+        // caches.match() always resolves
+        // but in case of success response will have value
+        if (response !== undefined) {
+            return response;
+        } else {
+            return fetch(event.request).then(function (response) {
+                // response may be used only once
+                // we need to save clone to put one copy in cache
+                // and serve second one
+                let responseClone = response.clone();
 
-self.addEventListener("fetch", fetchEvent => {
-  fetchEvent.respondWith(
-    caches.match(fetchEvent.request).then(res => {
-      return res || fetch(fetchEvent.request)
-    })
-  )
-})
+                caches.open('v1').then(function (cache) {
+                    cache.put(event.request, responseClone);
+                });
+                return response;
+            }).catch(function () {
+                return caches.match('/sw-test/gallery/myLittleVader.jpg');
+            });
+        }
+    }));
+});
