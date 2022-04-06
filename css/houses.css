@@ -1,0 +1,39 @@
+* {
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    color: white;
+    font-family: 'Oswald', sans-serif;
+  }
+  header{
+    margin-top: 1rem;
+  }
+  
+  .logo{
+    width: 100%;
+  }
+  
+  .logo img{
+    width: 50%;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  
+  .menu{
+    flex: 1;
+    display: flex;
+    align-items:flex-end;
+    flex-direction: column;
+    margin-top:1rem;
+  }
+  
+  .menu ul {
+    display: flex;
+  
+  }
+  
+  .menu ul li {
+    margin-right: 2rem;
+    align-items:flex-end;
+    list-style: none;
+  }
