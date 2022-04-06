@@ -1,0 +1,15 @@
+{
+    "name": "Game Of Thrones",
+    "short_name": "GoT",
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "black",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/src/img/icon.png",
+            "type": "image/png",
+            "sizes": "72x72"
+        }
+    ]
+}
